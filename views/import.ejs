@@ -48,6 +48,9 @@
 <body>
     <ul>
         <li><a href="./form">Home</a></li>
+        <li><a href="./import">Import</a></li>
+        <li><a href="./search">Search</a></li>
+        <li><a href="./ret">Existing Data</a></li>
     </ul>
     <%- locals.flash %>
     <div class="container">
@@ -55,16 +58,29 @@
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto" id="cardetails">
                 <div class="card card-signin my-5">
                     <div class="card-body">
-                        <legend class="">System Details</legend>
-                        <p><b>Note : </b>Please retrive the latest data from Database.</p>
-                        <form action="/ret" method="POST" enctype="multipart/form-data">
-                            <input type="submit" value="Retrive" class="btn btn-primary">
+                        <legend>System Details</legend>
+                        <form action="/upload" method="POST" enctype="multipart/form-data">
+                            <div class="custom-file mb-3">
+                                <input type="file" name="file" id="file" class="custom-file-input">
+                                <label for="file" class="custom-file-label">Import excel file</label>
+                            </div>
+                            <input type="submit" value="Import" class="btn btn-primary">
+                            <input type="submit" formaction="/export" value="Export Full Data" class="btn btn-primary">
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $('#file').on('change', function () {
+            //get the file name
+            var fileName = $(this).val().replace('C:\\fakepath\\', " ");
+            //replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(fileName);
+        })
+    </script>
 </body>
 
 </html>

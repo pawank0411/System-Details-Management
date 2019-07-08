@@ -5,7 +5,17 @@ const port = 4000;
 var session = require('express-session')
 var cookieparser = require('cookie-parser')
 const flash = require('express-flash-notification');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+const crypto = require('crypto');
 var fs = require('fs');
+const path = require('path');
+var upload1 = require('express-fileupload');
+app.use(upload1());
+var temp = require('fs-temp');
+var xlsxtojson = require("xlsx-to-json");
+var converter = require('json-2-csv');
 const mongoose = require('mongoose');
 const mongoURI = 'mongodb://localhost:27017/sys_details';
 
@@ -49,6 +59,34 @@ const flashNotificationOptions = {
                     item.type = 'Retrived Successfully!!';
                     item.alertClass = 'alert-success';
                     break;
+                case 'Import':
+                    item.type = 'Please import file';
+                    item.alertClass = 'alert-info';
+                    break;
+                case 'Export-Success':
+                    item.type = 'Exported Successfully!!';
+                    item.alertClass = 'alert-success';
+                    break;
+                case 'Export-Error':
+                    item.type = 'Soory, export failed'
+                    item.alertClass = 'alert-danger';
+                    break;
+                case 'Update':
+                    item.type = 'DataBase Updated';
+                    item.alertClass = 'alert-success';
+                    break;
+                case 'Browse_err':
+                    item.type = 'Please browse a file.';
+                    item.alertClass = 'alert-danger';
+                    break;
+                case 'Path_err':
+                    item.type = 'Soory, path error';
+                    item.alertClass = 'alert-danger';
+                    break;
+                case 'Excel_err':
+                    item.type = 'Please import excel file';
+                    item.alertClass = 'alert-warning';
+                    break;
             }
         }
         callback(null, item);
@@ -72,6 +110,90 @@ db.once('open', function (callback) {
 
 mongoose.connect(mongoURI);
 
+
+/**
+ * Import File Setup
+ */
+
+var name;
+
+app.post('/upload', function (req, res) {
+  if (!req.files) {
+    console.log('Please browse the file.')
+    req.flash('Browse_err', '', '/import')
+  } else {
+    console.log(req.files);
+    file = req.files;
+    name = file.file.name;
+    console.log(name);
+    var data = new Buffer(file.file.data)
+    var path = temp.writeFileSync(data)
+    console.log(path);
+
+    fs.readFile(path, { encoding: 'utf-8' }, function (err, data) {
+      if (err) {
+        console.log(err);
+        req.flash('Path_err', '', '/import');
+      } else {
+        console.log(path);
+        var ext = name.split('.').pop();
+        if (ext == 'xlsx') {
+          xlsxtojson({
+            input: path,  // input xls 
+            output: "output.json", // output json 
+            lowerCaseHeaders: true
+          }, function (err, result) {
+            if (err) {
+              console.log(err);
+              console.log('Please upload xlsx files');
+              req.flash('Excel_err', '', '/import');
+            } else {
+              db.collection('Details').insertMany(result, function (err, collection) {
+                if (err) {
+                  console.log(err);
+                  req.flash('Error-form', '', '/import');
+                } else {
+                  req.flash('Update', '', '/');
+                  dat = [];
+                }
+              })
+            }
+          })
+
+        } else {
+          req.flash('Excel_err', '', '/import');
+        }
+      }
+    })
+  }
+});
+
+app.get('/files', (req, res) => {
+  gfs.files.find().toArray((err, files) => {
+    // Check if files
+    if (!files || files.length === 0) {
+      return res.status(404).json({
+        err: 'No files exist'
+      });
+    }
+
+    // Files exist
+    return res.json(files);
+  });
+});
+
+app.get('/files/:filename', (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if file
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: 'No file exists'
+      });
+    }
+    // File exists
+    return res.json(file);
+  });
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -639,7 +761,7 @@ app.get('/delete', function (req, res) {
 })
 
 app.post('/dat', function (req, res) {
-    var key  = req.body.examplekey;
+    var key = req.body.examplekey;
     console.log(key);
     res.redirect('/search');
 })
@@ -666,10 +788,11 @@ app.post('/ret', function (req, res) {
 })
 
 app.get('/', (req, res) => res.render('index'));
-app.get('/index', (req, res) => res.render('index'));
+app.get('/form', (req, res) => res.render('form'));
 app.get('/search', (req, res) => res.render('search'));
 app.get('/search_s', (req, res) => res.render('search_s'));
 app.get('/ret', (req, res) => res.render('ret'));
 app.get('/data', (req, res) => res.render('data'));
+app.get('/import', (req, res) => res.render('import'));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
