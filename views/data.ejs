@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>System Details</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+    integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+    integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+    crossorigin="anonymous"></script>
+  <style>
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: white;
+    }
+
+    li {
+      float: left;
+    }
+
+    li a {
+      display: block;
+      color: black;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    li a:hover {
+      background-color: #ffffff;
+    }
+
+    .sub-entry {
+      width: 50%;
+      float: left;
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li><a href="/index">Home</a></li>
+  </ul>
+  <%- locals.flash %>
+  <div class="container">
+    <div class="table-responsive">
+      <form action="/dat" method="POST">
+        <table class="table table-bordered table-striped" id="capax_det">
+          <tr>
+            <th>Serial Number</th>
+            <th>Hostname</th>
+            <th>More Info</th>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  $(document).ready(function () {
+    $.getJSON('data.json', function (data) {
+      var capax_data = '';
+      $.each(data, function (key, value) {
+        capax_data += '<tr>';
+        capax_data += '<td name=examplekey id= examplekey >' + value.Serial_Number + '</td>';
+        capax_data += '<td>' + value.Hostname + '</td>';
+        capax_data += '<td> <button type="submit"  class="btn btn-primary" id="btn_cap" >More Info</button></td>';
+        capax_data += '</tr>';
+      });
+      $('#capax_det').append(capax_data);
+    });
+  });
+</script>

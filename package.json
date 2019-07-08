@@ -1,0 +1,28 @@
+{
+  "name": "system-details",
+  "version": "1.0.0",
+  "description": "System Details",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.1",
+    "ejs-html": "^5.1.5",
+    "express": "^4.17.1",
+    "express-flash-notification": "^0.5.0",
+    "express-session": "^1.16.2",
+    "fs": "0.0.1-security",
+    "mongoose": "^5.6.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Details",
+    "of",
+    "all",
+    "employees"
+  ],
+  "author": "",
+  "license": "ISC"
+}

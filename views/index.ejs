@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>System Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #ffffff;
+        }
+
+        .sub-entry {
+            width: 50%;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li><a href="./import">Import</a></li>
+        <li><a href="./search">Search</a></li>
+        <li><a href="./ret">Existing Data</a></li>
+    </ul>
+    <%- locals.flash %>
+    <div class="row">
+        <div class="container">
+            <h3 class="col-sm-6">System Details</h3>
+            <form id="emp_details" action="/details_save" method="POST">
+                <div class="sub-entry col-sm-6">
+                    <div class="form-group">
+                        <label for="examplestatus">Status</label>
+                        <select class="form-control status" name="examplestatus" id="examplestatus" autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="Online">Online</option>
+                            <option value="Offline">Offline</option>
+                            <option value="Working">Working</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleusername">UserName</label>
+                        <input type="text" class="form-control username" name="exampleusername" id="exampleusername"
+                            placeholder="Enter username" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleassettype">Asset Type</label>
+                        <select class="form-control asset" name="exampleassettype" id="exampleassettype"
+                            autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="Desktop">Desktop</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Printer">Printer</option>
+                            <option value="Tablet">Tablet</option>
+                            <option value="Server">Server</option>
+                            <option value="WorkStation">WorkStation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="examplehostname">Host Name</label>
+                        <input type="text" class="form-control hostname" name="examplehostname" id="examplehostname"
+                            placeholder="Enter Host Name" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampledepart">Department</label>
+                        <input type="text" class="form-control depart" name="exampledepart" id="exampledepart"
+                            placeholder="Enter Department" autocomplete="off">
+                    </div>
+                </div>
+                <div class="sub-entry col-sm-6">
+                    <div class="form-group">
+                        <label for="examplelocation">Location</label>
+                        <input type="text" class="form-control ponumber" name="examplepoNumber" id="examplepoNumber"
+                            placeholder="Enter Location" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleprotocols">TCP/IP</label>
+                        <select class="form-control protocols" name="exampleprotocols" id="exampleprotocols"
+                            autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="TCP">TCP</option>
+                            <option value="IP">IP</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleModel">Model</label>
+                        <input type="text" class="form-control model" name="exampleModel" id="exampleModel"
+                            autocomplete="off" placeholder="Enter Model">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleModelDescp">Model Description</label>
+                        <textarea type="textarea" rows="8" style="height:211px;" cols="50"
+                            class="form-control modeldescp" name="exampleModelDescp" id="exampleModelDescp"
+                            autocomplete="off" placeholder="Enter Model Description"> </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleserailNumber">Serial Number</label>
+                        <input type="text" class="form-control snumber" name="exampleserailNumber"
+                            id="exampleserailNumber" placeholder="Enter Serial Number" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleinstall">Installation Date</label>
+                        <input type="date" class="form-control install" name="exampleinstall" id="exampleinstall"
+                            placeholder="Enter Installation Date" autocomplete="off">
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleworkgroup">
+                        <label for="exampleworkgroup">WorkGroup</label>
+                        <select class="form-control workgroup" name="exampleworkgroup" id="exampleworkgroup"
+                            autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampledomain">
+                        <label for="exampledomain">AD</label>
+                        <select class="form-control domain" name="exampledomain" id="exampledomain" autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="examplevnc">
+                        <label for="examplevnc">VNC</label>
+                        <select class="form-control vnc" name="examplevnc" id="examplevnc" autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="examplelync">
+                        <label for="examplelync">Lync</label>
+                        <select class="form-control lync" name="examplelync" id="examplelync" autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="examplequiz">
+                        <label for="examplequiz">Safety-Quiz</label>
+                        <select class="form-control quiz" name="examplequiz" id="examplequiz" autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="examplecombolt">
+                        <label for="examplecombolt">Combolt</label>
+                        <select class="form-control combolt" name="examplecombolt" id="examplecombolt"
+                            autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="examplesccm">
+                        <label for="examplesccm">SCCM</label>
+                        <select class="form-control sccm" name="examplesccm" id="examplesccm" autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleantivirus">
+                        <label for="exampleantivirus">Anti-Virus</label>
+                        <select class="form-control antivirus" name="exampleantivirus" id="exampleantivirus"
+                            autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="examplevts">
+                        <label for="examplevts">VTS</label>
+                        <select class="form-control vts" name="examplevts" id="examplevts" autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleshutdown">
+                        <label for="exampleshutdown">ShutDown Policy</label>
+                        <select class="form-control shutdown" name="exampleshutdown" id="exampleshutdown"
+                            autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="examplepi">
+                        <label for="examplepi">PI</label>
+                        <select class="form-control pi" name="examplepi" id="examplepi" autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampledatapro">
+                        <label for="exampledatapro">Data Pro</label>
+                        <select class="form-control datapro" name="examplepro" id="examplepro" autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampledatalink">
+                        <label for="exampledatalink">Data-Link</label>
+                        <select class="form-control datalink" name="exampledatalink" id="exampledatalink"
+                            autocomplete="off">
+                            <option value="" disabled selected>Select</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
+                        </select>
+                </div>
+                <button type="submit" class="btn btn-primary ">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+</body>
+
+</html>
