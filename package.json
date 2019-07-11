@@ -15,11 +15,8 @@
     "express-session": "^1.16.2",
     "fs": "0.0.1-security",
     "fs-temp": "^1.1.2",
-    "gridfs-stream": "^1.1.1",
     "json-2-csv": "^3.5.5",
     "mongoose": "^5.6.2",
-    "multer": "^1.4.1",
-    "multer-gridfs-storage": "^3.2.3",
     "path": "^0.12.7",
     "xlsx-to-json": "^0.3.0"
   },

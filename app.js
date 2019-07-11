@@ -5,10 +5,6 @@ const port = 4000;
 var session = require('express-session')
 var cookieparser = require('cookie-parser')
 const flash = require('express-flash-notification');
-const multer = require('multer');
-const GridFsStorage = require('multer-gridfs-storage');
-const Grid = require('gridfs-stream');
-const crypto = require('crypto');
 var fs = require('fs');
 const path = require('path');
 var upload1 = require('express-fileupload');
@@ -87,6 +83,10 @@ const flashNotificationOptions = {
                     item.type = 'Please import excel file';
                     item.alertClass = 'alert-warning';
                     break;
+                case 'type-Error':
+                    item.type = 'Please Select Query Type';
+                    item.alertClass = 'alert-info';
+                    break;
             }
         }
         callback(null, item);
@@ -118,81 +118,81 @@ mongoose.connect(mongoURI);
 var name;
 
 app.post('/upload', function (req, res) {
-  if (!req.files) {
-    console.log('Please browse the file.')
-    req.flash('Browse_err', '', '/import')
-  } else {
-    console.log(req.files);
-    file = req.files;
-    name = file.file.name;
-    console.log(name);
-    var data = new Buffer(file.file.data)
-    var path = temp.writeFileSync(data)
-    console.log(path);
-
-    fs.readFile(path, { encoding: 'utf-8' }, function (err, data) {
-      if (err) {
-        console.log(err);
-        req.flash('Path_err', '', '/import');
-      } else {
+    if (!req.files) {
+        console.log('Please browse the file.')
+        req.flash('Browse_err', '', '/import')
+    } else {
+        console.log(req.files);
+        file = req.files;
+        name = file.file.name;
+        console.log(name);
+        var data = new Buffer(file.file.data)
+        var path = temp.writeFileSync(data)
         console.log(path);
-        var ext = name.split('.').pop();
-        if (ext == 'xlsx') {
-          xlsxtojson({
-            input: path,  // input xls 
-            output: "output.json", // output json 
-            lowerCaseHeaders: true
-          }, function (err, result) {
-            if (err) {
-              console.log(err);
-              console.log('Please upload xlsx files');
-              req.flash('Excel_err', '', '/import');
-            } else {
-              db.collection('Details').insertMany(result, function (err, collection) {
-                if (err) {
-                  console.log(err);
-                  req.flash('Error-form', '', '/import');
-                } else {
-                  req.flash('Update', '', '/');
-                  dat = [];
-                }
-              })
-            }
-          })
 
-        } else {
-          req.flash('Excel_err', '', '/import');
-        }
-      }
-    })
-  }
+        fs.readFile(path, { encoding: 'utf-8' }, function (err, data) {
+            if (err) {
+                console.log(err);
+                req.flash('Path_err', '', '/import');
+            } else {
+                console.log(path);
+                var ext = name.split('.').pop();
+                if (ext == 'xlsx') {
+                    xlsxtojson({
+                        input: path,  // input xls 
+                        output: "output.json", // output json 
+                        lowerCaseHeaders: true
+                    }, function (err, result) {
+                        if (err) {
+                            console.log(err);
+                            console.log('Please upload xlsx files');
+                            req.flash('Excel_err', '', '/import');
+                        } else {
+                            db.collection('Details').insertMany(result, function (err, collection) {
+                                if (err) {
+                                    console.log(err);
+                                    req.flash('Error-form', '', '/import');
+                                } else {
+                                    req.flash('Update', '', '/');
+                                    dat = [];
+                                }
+                            })
+                        }
+                    })
+
+                } else {
+                    req.flash('Excel_err', '', '/import');
+                }
+            }
+        })
+    }
 });
 
 app.get('/files', (req, res) => {
-  gfs.files.find().toArray((err, files) => {
-    // Check if files
-    if (!files || files.length === 0) {
-      return res.status(404).json({
-        err: 'No files exist'
-      });
-    }
+    gfs.files.find().toArray((err, files) => {
+        // Check if files
+        if (!files || files.length === 0) {
+            return res.status(404).json({
+                err: 'No files exist'
+            });
+        }
 
-    // Files exist
-    return res.json(files);
-  });
+        // Files exist
+        return res.json(files);
+    });
 });
 
 app.get('/files/:filename', (req, res) => {
-  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    // Check if file
-    if (!file || file.length === 0) {
-      return res.status(404).json({
-        err: 'No file exists'
-      });
-    }
-    // File exists
-    return res.json(file);
-  });
+    gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+        // Check if file
+        if (!file || file.length === 0) {
+            return res.status(404).json({
+                err: 'No file exists'
+            });
+        }
+        // File exists
+        return res.json(file);
+    });
 });
 
 app.use(bodyParser.json());
@@ -256,10 +256,10 @@ app.post('/details_save', function (req, res) {
     db.collection('Details').insertOne(data, function (err, collection) {
         if (err) {
             console.log(err);
-            req.flash('Error-form', '', '/index');
+            req.flash('Error-form', '', '/form');
         } else {
             console.log('Record Inserted Successfully');
-            req.flash('Success-form', '', '/index');
+            req.flash('Success-form', '', '/form');
         }
     });
 })
@@ -294,7 +294,7 @@ app.post('/search', function (req, res) {
                     location: docs[i].Location,
                     protocol: docs[i].TCP_IP,
                     model: docs[i].Model,
-                    modelDesp: docs[i].modelDesp,
+                    modelDesp: docs[i].Model_Desp,
                     serialNumber: docs[i].Serial_Number,
                     install_date: docs[i].Installation_Date,
                     wg: docs[i].WG,
@@ -348,7 +348,7 @@ app.get('/hostname', function (req, res) {
                     location: docs[i].Location,
                     protocol: docs[i].TCP_IP,
                     model: docs[i].Model,
-                    modelDesp: docs[i].modelDesp,
+                    modelDesp: docs[i].Model_Desp,
                     serialNumber: docs[i].Serial_Number,
                     install_date: docs[i].Installation_Date,
                     wg: docs[i].WG,
@@ -510,10 +510,10 @@ app.post('/edit_save', function (req, res) {
     db.collection('Details').insertOne(data_ed, function (err, collection) {
         if (err) {
             console.log(err);
-            req.flash('Error-form', '', '/index');
+            req.flash('Error-form', '', '/form');
         } else {
             console.log('Record Inserted Successfully');
-            req.flash('Success-form', '', '/index');
+            req.flash('Success-form', '', '/form');
         }
     });
 })
@@ -767,7 +767,7 @@ app.post('/dat', function (req, res) {
 })
 
 app.post('/ret', function (req, res) {
-    db.collection('Details').find().toArray(function (err, docs) {
+    db.collection('Details').find({}).toArray((err, docs) => {
         if (err) throw err
         console.log(docs);
         if (!docs.length) {
@@ -787,6 +787,211 @@ app.post('/ret', function (req, res) {
     })
 })
 
+var query_d = [];
+var main_data = [];
+var query, query_h, query_s;
+app.post('/query', function (req, res) {
+    query = req.body.examplequery;
+    query_h = req.body.query_h;
+    query_s = req.body.query_s;
+    if (query == null) {
+        console.log('Please Select type')
+        req.flash('type-Error', '', '/import');
+    } else {
+        if (query == 'hostname') {
+            db.collection('Details').find({ 'Hostname': query_h }).toArray(function (err, docs) {
+                if (err) throw err
+                if (!docs.length) {
+                    res.redirect('/import')
+                } else {
+                    var i;
+                    console.log(docs);
+                    for (i = 0; i < docs.length; i++) {
+                        query_d.push({
+                            status: docs[i].Status,
+                            user_name: docs[i].Username,
+                            asset_type: docs[i].Asset_Type,
+                            hostname: docs[i].Hostname,
+                            department: docs[i].Department,
+                            location: docs[i].Location,
+                            protocol: docs[i].TCP_IP,
+                            model: docs[i].Model,
+                            modelDesp: docs[i].Model_Desp,
+                            serialNumber: docs[i].Serial_Number,
+                            install_date: docs[i].Installation_Date,
+                            wg: docs[i].WG,
+                            ad: docs[i].AD,
+                            vnc: docs[i].VNC,
+                            lync: docs[i].LYNC,
+                            quiz: docs[i].Safety_Quiz,
+                            combolt: docs[i].Combolt,
+                            sccm: docs[i].SCCM,
+                            antiv: docs[i].Anti_Virus,
+                            vts: docs[i].VTS,
+                            shutdown: docs[i].ShutDown,
+                            pi: docs[i].PI,
+                            data_pro: docs[i].Data_Pro,
+                            data_link: docs[i].Data_Link,
+                            del_id: docs[i]._id
+                        });
+                    }
+                    for (i = 0; i < docs.length; i++) {
+                        main_data.push({
+                            status: docs[i].Status,
+                            user_name: docs[i].Username,
+                            asset_type: docs[i].Asset_Type,
+                            hostname: docs[i].Hostname,
+                            department: docs[i].Department,
+                            location: docs[i].Location,
+                            protocol: docs[i].TCP_IP,
+                            model: docs[i].Model,
+                            modelDesp: docs[i].Model_Desp,
+                            serialNumber: docs[i].Serial_Number,
+                            install_date: docs[i].Installation_Date,
+                            wg: docs[i].WG,
+                            ad: docs[i].AD,
+                            vnc: docs[i].VNC,
+                            lync: docs[i].LYNC,
+                            quiz: docs[i].Safety_Quiz,
+                            combolt: docs[i].Combolt,
+                            sccm: docs[i].SCCM,
+                            antiv: docs[i].Anti_Virus,
+                            vts: docs[i].VTS,
+                            shutdown: docs[i].ShutDown,
+                            pi: docs[i].PI,
+                            data_pro: docs[i].Data_Pro,
+                            data_link: docs[i].Data_Link
+                        });
+                      }
+                    fs.writeFile('./js/query.json', JSON.stringify(query_d), function (err) {
+                        if (err) {
+                            console.log(err);
+                            req.flash('Retrive-Error', '', '/import');
+
+                        } else {
+                            console.log('Exported');
+                            req.flash('Retrive-Success', '', '/query_data');
+                            query_d = [];
+                        }
+                    });
+
+                }
+            });
+        } else {
+            console.log('Hello');
+            res.redirect('/serial');
+        }
+    }
+})
+
+app.get('/serial', function (req, res) {
+    console.log(query_s);
+    db.collection('Details').find({ 'Serial_Number': query_s }).toArray(function (err, docs) {
+        if (err) throw err
+        if (!docs.length) {
+            res.redirect('/import')
+        } else {
+            var i;
+            console.log(docs);
+            for (i = 0; i < docs.length; i++) {
+                query_d.push({
+                    status: docs[i].Status,
+                    user_name: docs[i].Username,
+                    asset_type: docs[i].Asset_Type,
+                    hostname: docs[i].Hostname,
+                    department: docs[i].Department,
+                    location: docs[i].Location,
+                    protocol: docs[i].TCP_IP,
+                    model: docs[i].Model,
+                    modelDesp: docs[i].Model_Desp,
+                    serialNumber: docs[i].Serial_Number,
+                    install_date: docs[i].Installation_Date,
+                    wg: docs[i].WG,
+                    ad: docs[i].AD,
+                    vnc: docs[i].VNC,
+                    lync: docs[i].LYNC,
+                    quiz: docs[i].Safety_Quiz,
+                    combolt: docs[i].Combolt,
+                    sccm: docs[i].SCCM,
+                    antiv: docs[i].Anti_Virus,
+                    vts: docs[i].VTS,
+                    shutdown: docs[i].ShutDown,
+                    pi: docs[i].PI,
+                    data_pro: docs[i].Data_Pro,
+                    data_link: docs[i].Data_Link,
+                    del_id: docs[i]._id
+                });
+            }
+            for (i = 0; i < docs.length; i++) {
+                main_data.push({
+                    status: docs[i].Status,
+                    user_name: docs[i].Username,
+                    asset_type: docs[i].Asset_Type,
+                    hostname: docs[i].Hostname,
+                    department: docs[i].Department,
+                    location: docs[i].Location,
+                    protocol: docs[i].TCP_IP,
+                    model: docs[i].Model,
+                    modelDesp: docs[i].Model_Desp,
+                    serialNumber: docs[i].Serial_Number,
+                    install_date: docs[i].Installation_Date,
+                    wg: docs[i].WG,
+                    ad: docs[i].AD,
+                    vnc: docs[i].VNC,
+                    lync: docs[i].LYNC,
+                    quiz: docs[i].Safety_Quiz,
+                    combolt: docs[i].Combolt,
+                    sccm: docs[i].SCCM,
+                    antiv: docs[i].Anti_Virus,
+                    vts: docs[i].VTS,
+                    shutdown: docs[i].ShutDown,
+                    pi: docs[i].PI,
+                    data_pro: docs[i].Data_Pro,
+                    data_link: docs[i].Data_Link
+                });
+              }
+            fs.writeFile('./js/query.json', JSON.stringify(query_d), function (err) {
+                if (err) {
+                    console.log(err);
+                    req.flash('Retrive-Error', '', '/import');
+
+                } else {
+                    console.log('Exported');
+                    req.flash('Retrive-Success', '', '/query_data');
+                    query_d = [];
+                }
+            });
+
+        }
+    });
+})
+
+var json2csvCallback;
+
+app.get('/export_q', function (req, res) {
+  json2csvCallback = function (err, csv) {
+    if (err) {
+      console.log(err);
+      req.flash('Export-Error', '', '/import_cap');;
+    } else {
+
+      console.log(csv);
+      fs.writeFile('data-query.csv', csv, function (err) {
+        if (err) {
+          console.log(err);
+          req.flash('Export-Error', '', '/import_cap');
+        } else {
+
+          console.log('Exported');
+          main_data = [];
+          req.flash('Export-Success', '', '/');
+        }
+      });
+    }
+  };
+  converter.json2csv(main_data, json2csvCallback);
+})
+
 app.get('/', (req, res) => res.render('index'));
 app.get('/form', (req, res) => res.render('form'));
 app.get('/search', (req, res) => res.render('search'));
@@ -794,5 +999,6 @@ app.get('/search_s', (req, res) => res.render('search_s'));
 app.get('/ret', (req, res) => res.render('ret'));
 app.get('/data', (req, res) => res.render('data'));
 app.get('/import', (req, res) => res.render('import'));
+app.get('/query_data', (req, res) => res.render('query_data'));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

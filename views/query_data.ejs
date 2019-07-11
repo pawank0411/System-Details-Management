@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>System Management</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+    integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+    integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+    crossorigin="anonymous"></script>
+  <style>
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: white;
+    }
+
+    li {
+      float: left;
+    }
+
+    li a {
+      display: block;
+      color: black;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    li a:hover {
+      background-color: #ffffff;
+    }
+
+    .sub-entry {
+      width: 50%;
+      float: left;
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li><a href="./form">Home</a></li>
+  </ul>
+  <%- locals.flash %>
+  <div class="container">
+    <form action="/export_q" method="GET">
+      <button type="submit" class="btn btn-primary">Export</button>
+    </form>
+    <br>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="capax_det">
+          <tr>
+            <th>Status</th>
+            <th>Username</th>
+            <th>Asset Type</th>
+            <th>Hostname</th>
+            <th>Department</th>
+            <th>Location</th>
+            <th>TCP/IP</th>
+            <th>Model</th>
+            <th>ModelDesp</th>
+            <th>Serial Number</th>
+            <th>Installation Date</th>
+            <th>WorkGroup</th>
+            <th>AD</th>
+            <th>VNC</th>
+            <th>Lync</th>
+            <th>Safety-Quiz</th>
+            <th>Combolt</th>
+            <th>SCCM</th>
+            <th>Anti-Virus</th>
+            <th>VTS</th>
+            <th>ShutDown Policy</th>
+            <th>PI</th>
+            <th>Data Pro</th>
+            <th>Data Link</th>
+          </tr>
+        </table>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  $(document).ready(function () {
+    $.getJSON('query.json', function (data) {
+      var capax_data = '';
+      $.each(data, function (key, value) {
+        capax_data += '<tr>';
+        capax_data += '<td>' + value.status + '</td>';
+        capax_data += '<td>' + value.user_name + '</td>';
+        capax_data += '<td>' + value.asset_type + '</td>';
+        capax_data += '<td>' + value.hostname + '</td>';
+        capax_data += '<td>' + value.department + '</td>';
+        capax_data += '<td>' + value.location + '</td>';
+        capax_data += '<td>' + value.protocol + '</td>';
+        capax_data += '<td>' + value.model + '</td>';
+        capax_data += '<td>' + value.modelDesp + '</td>';
+        capax_data += '<td>' + value.serialNumber + '</td>';
+        capax_data += '<td>' + value.install_date + '</td>';
+        capax_data += '<td>' + value.wg + '</td>';
+        capax_data += '<td>' + value.ad + '</td>';
+        capax_data += '<td>' + value.vnc + '</td>';
+        capax_data += '<td>' + value.lync + '</td>';
+        capax_data += '<td>' + value.quiz + '</td>';
+        capax_data += '<td>' + value.combolt + '</td>';
+        capax_data += '<td>' + value.sccm + '</td>';
+        capax_data += '<td>' + value.antiv + '</td>';
+        capax_data += '<td>' + value.vts + '</td>';
+        capax_data += '<td>' + value.shutdown + '</td>';
+        capax_data += '<td>' + value.pi + '</td>';
+        capax_data += '<td>' + value.data_pro + '</td>';
+        capax_data += '<td>' + value.data_link + '</td>';
+        capax_data += '</tr>';
+      });
+      $('#capax_det').append(capax_data);
+    });
+  });
+</script>
