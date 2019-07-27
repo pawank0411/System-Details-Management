@@ -72,20 +72,55 @@
                         <form action="/query" method="POST">
                             <div class="form-group">
                                 <select class="form-control query" name="examplequery" id="examplequery"
-                                onchange='query(this.value);'   autocomplete="off">
+                                    onchange='query(this.value);' autocomplete="off">
                                     <option value="" disabled selected>Select</option>
                                     <option value="hostname">Hostname</option>
                                     <option value="snumber">Serial Number</option>
+                                    <option value="asset">Asset Type</option>
                                 </select>
                             </div>
-                            <input type="text" class="form-control query_h" name="query_h" id="query_h" placeholder="Enter Hostname" style='display:none;'/>
-                            <input type="text" class="form-control query_s" name="query_s" id="query_s" placeholder="Enter Serial Number" style='display:none;'/>
+                            <input type="text" class="form-control query_h" name="query_h" id="query_h"
+                                placeholder="Enter Hostname" style='display:none;' />
+                            <input type="text" class="form-control query_s" name="query_s" id="query_s"
+                                placeholder="Enter Serial Number" style='display:none;' />
+                            <select class="form-control query_a" name="query_a" id="query_a" autocomplete="off"
+                                style="display: none" onchange='query_mod(this.value);'>
+                                <option value="" disabled selected>Select</option>
+                                <option value="Desktop">Desktop</option>
+                                <option value="Laptop">Laptop</option>
+                                <option value="Printer">Printer</option>
+                                <option value="Tablet">Tablet</option>
+                                <option value="Server">Server</option>
+                                <option value="WorkStation">WorkStation</option>
+                            </select>
+                            <input type="text" class="form-control query_m" name="query_m" id="query_m"
+                                autocomplete="off" placeholder="Enter Model (Optional)" style="display: none">
                             <br>
                             <input type="submit" value="Query" class="btn btn-primary">
                         </form>
                     </div>
                 </div>
             </div>
+            <table class="table table-bordered table-striped" id="capax_det">
+                <tr>
+                  <th>serialNumber</th>
+                  <th>asset_type</th>
+                  <th>sapCode</th>
+                  <th>materialCode</th>
+                  <th>materialQuantity</th>
+                  <th>poDate</th>
+                  <th>poNum</th>
+                  <th>invoiceDate</th>
+                  <th>invoiceNumber</th>
+                  <th>receiveDate</th>
+                  <th>proccessor</th>
+                  <th>hardisk</th>
+                  <th>ram</th>
+                  <th>model</th>
+                  <th>modelDesp</th>
+                  <th>summit</th>
+                </tr>
+              </table>
         </div>
     </div>
 
@@ -98,20 +133,39 @@
         })
     </script>
     <script type="text/javascript">
-        function query(val){
-         var element=document.getElementById('query_h');
-         if(val=='hostname')
-           element.style.display='block';
-         else  
-           element.style.display='none';
-        
-        var element=document.getElementById('query_s');
-         if(val=='snumber')
-           element.style.display='block';
-         else  
-           element.style.display='none';
+        function query(val) {
+            var element = document.getElementById('query_h');
+            if (val == 'hostname')
+                element.style.display = 'block';
+            else
+                element.style.display = 'none';
+
+            var element = document.getElementById('query_s');
+            if (val == 'snumber')
+                element.style.display = 'block';
+            else
+                element.style.display = 'none';
+
+            var element = document.getElementById('query_a');
+            if (val == 'asset')
+                element.style.display = 'block';
+            else
+                element.style.display = 'none';
         }
-        </script>
+    </script>
+    <script type="text/javascript">
+        function query_mod(val) {
+            console.log('hello');
+            var element = document.getElementById('query_m');
+            if (val == 'Desktop' || 'Laptop' || 'Printer' || 'Tablet' || 'Server' || 'WorkStation') {
+                element.style.display = 'block';
+            }
+            else {
+                element.style.display = 'none'
+            }
+
+        }
+    </script>
 </body>
 
 </html>

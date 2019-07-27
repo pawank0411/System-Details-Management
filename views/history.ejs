@@ -90,8 +90,7 @@
                         <input type="text" class="form-control depart" name="exampledepart" readonly="readonly"
                             id="exampledepart" value="<%= exampledepart %>" placeholder="Enter Department" autocomplete="off">
                     </div>
-                </div>
-                <div class="sub-entry col-sm-6">
+               
                     <div class="form-group">
                         <label for="examplelocation">Location</label>
                         <input type="text" class="form-control location" readonly="readonly" name="examplelocation"
@@ -129,8 +128,9 @@
                     </div>
 
                 </div>
+                <div class="sub-entry col-sm-6">
                 <div class="form-group">
-                    <label for="exampleworkgroup">
+                   
                         <label for="exampleworkgroup">WorkGroup</label>
                         <select class="form-control workgroup" disabled="disabled" name="exampleworkgroup"
                             id="exampleworkgroup" autocomplete="off">
@@ -140,7 +140,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampledomain">
+                   
                         <label for="exampledomain">AD</label>
                         <select class="form-control domain" name="exampledomain" disabled="disabled" id="exampledomain"
                             autocomplete="off">
@@ -149,8 +149,9 @@
                             <option value="NO">NO</option>
                         </select>
                 </div>
+            
                 <div class="form-group">
-                    <label for="examplevnc">
+                    
                         <label for="examplevnc">VNC</label>
                         <select class="form-control vnc" name="examplevnc" disabled="disabled" id="examplevnc"
                             autocomplete="off">
@@ -160,7 +161,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="examplelync">
+                    
                         <label for="examplelync">Lync</label>
                         <select class="form-control lync" name="examplelync" disabled="disabled" id="examplelync"
                             autocomplete="off">
@@ -170,7 +171,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="examplequiz">
+                    
                         <label for="examplequiz">Safety-Quiz</label>
                         <select class="form-control quiz" name="examplequiz" disabled="disabled" id="examplequiz"
                             autocomplete="off">
@@ -180,7 +181,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="examplecombolt">
+                    
                         <label for="examplecombolt">Combolt</label>
                         <select class="form-control combolt" name="examplecombolt" disabled="disabled"
                             id="examplecombolt" autocomplete="off">
@@ -190,7 +191,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="examplesccm">
+                  
                         <label for="examplesccm">SCCM</label>
                         <select class="form-control sccm" name="examplesccm" disabled="disabled" id="examplesccm"
                             autocomplete="off">
@@ -200,7 +201,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampleantivirus">
+                    
                         <label for="exampleantivirus">Anti-Virus</label>
                         <select class="form-control antivirus" name="exampleantivirus" disabled="disabled"
                             id="exampleantivirus" autocomplete="off">
@@ -210,7 +211,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="examplevts">
+                   
                         <label for="examplevts">VTS</label>
                         <select class="form-control vts" name="examplevts" disabled="disabled" id="examplevts"
                             autocomplete="off">
@@ -220,7 +221,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampleshutdown">
+                    
                         <label for="exampleshutdown">ShutDown Policy</label>
                         <select class="form-control shutdown" name="exampleshutdown" disabled="disabled"
                             id="exampleshutdown" autocomplete="off">
@@ -230,7 +231,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="examplepi">
+                    
                         <label for="examplepi">PI</label>
                         <select class="form-control pi" name="examplepi" disabled="disabled" id="examplepi"
                             autocomplete="off">
@@ -240,7 +241,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampledatapro">
+                   
                         <label for="exampledatapro">Data Pro</label>
                         <select class="form-control datapro" name="examplepro" disabled="disabled" id="examplepro"
                             autocomplete="off">
@@ -250,7 +251,7 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampledatalink">
+                   
                         <label for="exampledatalink">Data-Link</label>
                         <select class="form-control datalink" name="exampledatalink" disabled="disabled"
                             id="exampledatalink" autocomplete="off">
@@ -259,10 +260,12 @@
                             <option value="NO">NO</option>
                         </select>
                 </div>
+            </div>
                 <button type="next" class="btn btn-success" id="next">Next</button>
                 <button type="prev" class="btn btn-success" formaction="/prev" id="prev">Prev</button>
                 <button type="del" class="btn btn-danger" formaction="/delete" id="del">Delete</button>
             </form>
+            
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

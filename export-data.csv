@@ -1,0 +1,5 @@
+status,user_name,asset_type,hostname,department,location,protocol,model,modelDesp,serialNumber,install_date,wg,ad,vnc,lync,quiz,combolt,sccm,antiv,vts,shutdown,pi,data_pro,data_link
+Offline,SADSDASD,Printer,10.32.25,dgdgd,null,null,null, ,ADADAD,,null,null,YES,NO,NO,YES,YES,NO,NO,YES,NO,NO,YES
+Online,AAS,Desktop,10.32.25,FSF,null,null,null, ,XAD,,null,null,null,null,null,null,null,null,null,null,null,null,null
+Offline,,Laptop,10.35.28,,null,null,null, ,ADADAD,,null,null,null,null,null,null,null,null,null,null,null,null,null
+Online,FSF,Desktop,10.32.25,zxvdv,null,null,null, Lorem ipsum,AA,,null,null,null,null,null,null,null,null,null,null,null,null,null

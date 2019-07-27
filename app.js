@@ -168,33 +168,6 @@ app.post('/upload', function (req, res) {
     }
 });
 
-app.get('/files', (req, res) => {
-    gfs.files.find().toArray((err, files) => {
-        // Check if files
-        if (!files || files.length === 0) {
-            return res.status(404).json({
-                err: 'No files exist'
-            });
-        }
-
-        // Files exist
-        return res.json(files);
-    });
-});
-
-app.get('/files/:filename', (req, res) => {
-    gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-        // Check if file
-        if (!file || file.length === 0) {
-            return res.status(404).json({
-                err: 'No file exists'
-            });
-        }
-        // File exists
-        return res.json(file);
-    });
-});
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/js"));
@@ -209,12 +182,12 @@ app.post('/details_save', function (req, res) {
     var department = req.body.exampledepart;
     var location = req.body.examplelocation;
     var protocol = req.body.exampleprotocols;
-    var model = req.body.examplemodel;
+    var model = req.body.exampleModel;
     var modelDesp = req.body.exampleModelDescp;
     var serialNumber = req.body.exampleserailNumber;
     var install_date = req.body.exampleinstall;
     var wg = req.body.exampleworkgroup;
-    var ad = req.body.domain;
+    var ad = req.body.exampledomain;
     var vnc = req.body.examplevnc;
     var lync = req.body.examplelync;
     var quiz = req.body.examplequiz;
@@ -383,6 +356,7 @@ app.get('/c', function (req, res) {
         req.flash('No-Data', '', '/search');
     }
     else {
+        console.log(rec.install_date);
         res.render('search_s', {
             exampleprimary: rec.primary_key,
             examplestatus: rec.status,
@@ -632,7 +606,7 @@ app.get('/next', function (req, res) {
             req.flash('No-Data', '', '/history');
             j--;
         } else {
-            console.log(rec[j]);
+            console.log(rec[j].status);
             res.render('history', {
                 examplestatus: rec[j].status,
                 exampleusername: rec[j].user_name,
@@ -789,17 +763,20 @@ app.post('/ret', function (req, res) {
 
 var query_d = [];
 var main_data = [];
-var query, query_h, query_s;
+var query, query_h, query_s, query_a, query_m;
 app.post('/query', function (req, res) {
     query = req.body.examplequery;
     query_h = req.body.query_h;
     query_s = req.body.query_s;
+    query_a = req.body.query_a;
+    query_m = req.body.query_m;
+
     if (query == null) {
         console.log('Please Select type')
         req.flash('type-Error', '', '/import');
     } else {
         if (query == 'hostname') {
-            db.collection('Details').find({ 'Hostname': query_h }).toArray(function (err, docs) {
+            db.collection('Details').find({ 'Hostname'  : query_h }).toArray(function (err, docs) {
                 if (err) throw err
                 if (!docs.length) {
                     res.redirect('/import')
@@ -862,7 +839,7 @@ app.post('/query', function (req, res) {
                             data_pro: docs[i].Data_Pro,
                             data_link: docs[i].Data_Link
                         });
-                      }
+                    }
                     fs.writeFile('./js/query.json', JSON.stringify(query_d), function (err) {
                         if (err) {
                             console.log(err);
@@ -877,15 +854,17 @@ app.post('/query', function (req, res) {
 
                 }
             });
-        } else {
+        } else if (query == 'snumber') {
             console.log('Hello');
             res.redirect('/serial');
+        } else if (query == 'asset') {
+            console.log('Hello');
+            res.redirect('/asset')
         }
     }
 })
 
 app.get('/serial', function (req, res) {
-    console.log(query_s);
     db.collection('Details').find({ 'Serial_Number': query_s }).toArray(function (err, docs) {
         if (err) throw err
         if (!docs.length) {
@@ -949,7 +928,7 @@ app.get('/serial', function (req, res) {
                     data_pro: docs[i].Data_Pro,
                     data_link: docs[i].Data_Link
                 });
-              }
+            }
             fs.writeFile('./js/query.json', JSON.stringify(query_d), function (err) {
                 if (err) {
                     console.log(err);
@@ -966,30 +945,257 @@ app.get('/serial', function (req, res) {
     });
 })
 
+app.get('/asset', function (req, res) {
+    if (query_m == '') {
+        db.collection('Details').find({ 'Asset_Type': query_a }).toArray(function (err, docs) {
+            if (err) throw err
+            if (!docs.length) {
+                res.redirect('/import')
+            } else {
+                var i;
+                console.log(docs);
+                for (i = 0; i < docs.length; i++) {
+                    query_d.push({
+                        status: docs[i].Status,
+                        user_name: docs[i].Username,
+                        asset_type: docs[i].Asset_Type,
+                        hostname: docs[i].Hostname,
+                        department: docs[i].Department,
+                        location: docs[i].Location,
+                        protocol: docs[i].TCP_IP,
+                        model: docs[i].Model,
+                        modelDesp: docs[i].Model_Desp,
+                        serialNumber: docs[i].Serial_Number,
+                        install_date: docs[i].Installation_Date,
+                        wg: docs[i].WG,
+                        ad: docs[i].AD,
+                        vnc: docs[i].VNC,
+                        lync: docs[i].LYNC,
+                        quiz: docs[i].Safety_Quiz,
+                        combolt: docs[i].Combolt,
+                        sccm: docs[i].SCCM,
+                        antiv: docs[i].Anti_Virus,
+                        vts: docs[i].VTS,
+                        shutdown: docs[i].ShutDown,
+                        pi: docs[i].PI,
+                        data_pro: docs[i].Data_Pro,
+                        data_link: docs[i].Data_Link,
+                        del_id: docs[i]._id
+                    });
+                }
+                for (i = 0; i < docs.length; i++) {
+                    main_data.push({
+                        status: docs[i].Status,
+                        user_name: docs[i].Username,
+                        asset_type: docs[i].Asset_Type,
+                        hostname: docs[i].Hostname,
+                        department: docs[i].Department,
+                        location: docs[i].Location,
+                        protocol: docs[i].TCP_IP,
+                        model: docs[i].Model,
+                        modelDesp: docs[i].Model_Desp,
+                        serialNumber: docs[i].Serial_Number,
+                        install_date: docs[i].Installation_Date,
+                        wg: docs[i].WG,
+                        ad: docs[i].AD,
+                        vnc: docs[i].VNC,
+                        lync: docs[i].LYNC,
+                        quiz: docs[i].Safety_Quiz,
+                        combolt: docs[i].Combolt,
+                        sccm: docs[i].SCCM,
+                        antiv: docs[i].Anti_Virus,
+                        vts: docs[i].VTS,
+                        shutdown: docs[i].ShutDown,
+                        pi: docs[i].PI,
+                        data_pro: docs[i].Data_Pro,
+                        data_link: docs[i].Data_Link
+                    });
+                }
+                fs.writeFile('./js/query.json', JSON.stringify(query_d), function (err) {
+                    if (err) {
+                        console.log(err);
+                        req.flash('Retrive-Error', '', '/import');
+
+                    } else {
+                        console.log('Exported');
+                        req.flash('Retrive-Success', '', '/query_data');
+                        query_d = [];
+                    }
+                });
+
+            }
+        });
+    } else {
+        db.collection('Details').find({ 'Model': query_m }).toArray(function (err, docs) {
+            if (err) throw err
+            if (!docs.length) {
+                res.redirect('/import')
+            } else {
+                var i;
+                console.log(docs);
+                for (i = 0; i < docs.length; i++) {
+                    query_d.push({
+                        status: docs[i].Status,
+                        user_name: docs[i].Username,
+                        asset_type: docs[i].Asset_Type,
+                        hostname: docs[i].Hostname,
+                        department: docs[i].Department,
+                        location: docs[i].Location,
+                        protocol: docs[i].TCP_IP,
+                        model: docs[i].Model,
+                        modelDesp: docs[i].Model_Desp,
+                        serialNumber: docs[i].Serial_Number,
+                        install_date: docs[i].Installation_Date,
+                        wg: docs[i].WG,
+                        ad: docs[i].AD,
+                        vnc: docs[i].VNC,
+                        lync: docs[i].LYNC,
+                        quiz: docs[i].Safety_Quiz,
+                        combolt: docs[i].Combolt,
+                        sccm: docs[i].SCCM,
+                        antiv: docs[i].Anti_Virus,
+                        vts: docs[i].VTS,
+                        shutdown: docs[i].ShutDown,
+                        pi: docs[i].PI,
+                        data_pro: docs[i].Data_Pro,
+                        data_link: docs[i].Data_Link,
+                        del_id: docs[i]._id
+                    });
+                }
+                for (i = 0; i < docs.length; i++) {
+                    main_data.push({
+                        status: docs[i].Status,
+                        user_name: docs[i].Username,
+                        asset_type: docs[i].Asset_Type,
+                        hostname: docs[i].Hostname,
+                        department: docs[i].Department,
+                        location: docs[i].Location,
+                        protocol: docs[i].TCP_IP,
+                        model: docs[i].Model,
+                        modelDesp: docs[i].Model_Desp,
+                        serialNumber: docs[i].Serial_Number,
+                        install_date: docs[i].Installation_Date,
+                        wg: docs[i].WG,
+                        ad: docs[i].AD,
+                        vnc: docs[i].VNC,
+                        lync: docs[i].LYNC,
+                        quiz: docs[i].Safety_Quiz,
+                        combolt: docs[i].Combolt,
+                        sccm: docs[i].SCCM,
+                        antiv: docs[i].Anti_Virus,
+                        vts: docs[i].VTS,
+                        shutdown: docs[i].ShutDown,
+                        pi: docs[i].PI,
+                        data_pro: docs[i].Data_Pro,
+                        data_link: docs[i].Data_Link
+                    });
+                }
+                fs.writeFile('./js/query.json', JSON.stringify(query_d), function (err) {
+                    if (err) {
+                        console.log(err);
+                        req.flash('Retrive-Error', '', '/import');
+    
+                    } else {
+                        console.log('Exported');
+                        req.flash('Retrive-Success', '', '/query_data');
+                        query_d = [];
+                    }
+                });
+    
+            }
+        });
+    }
+})
+
 var json2csvCallback;
 
 app.get('/export_q', function (req, res) {
-  json2csvCallback = function (err, csv) {
-    if (err) {
-      console.log(err);
-      req.flash('Export-Error', '', '/import_cap');;
-    } else {
-
-      console.log(csv);
-      fs.writeFile('data-query.csv', csv, function (err) {
+    json2csvCallback = function (err, csv) {
         if (err) {
-          console.log(err);
-          req.flash('Export-Error', '', '/import_cap');
+            console.log(err);
+            req.flash('Export-Error', '', '/import');;
         } else {
 
-          console.log('Exported');
-          main_data = [];
-          req.flash('Export-Success', '', '/');
+            console.log(csv);
+            fs.writeFile('data-query.csv', csv, function (err) {
+                if (err) {
+                    console.log(err);
+                    req.flash('Export-Error', '', '/import');
+                } else {
+
+                    console.log('Exported');
+                    main_data = [];
+                    req.flash('Export-Success', '', '/');
+                }
+            });
         }
-      });
-    }
-  };
-  converter.json2csv(main_data, json2csvCallback);
+    };
+    converter.json2csv(main_data, json2csvCallback);
+})
+
+var main_dat = []
+app.post('/export', function (req, res) {
+    db.collection('Details').find({}).toArray((err, docs) => {
+        if (err) {
+            console.log(err);
+            req.flash('Export-Error', '', '/import');
+        } else {
+            console.log(docs);
+            for (i = 0; i < docs.length; i++) {
+                main_dat.push({
+                    status: docs[i].Status,
+                    user_name: docs[i].Username,
+                    asset_type: docs[i].Asset_Type,
+                    hostname: docs[i].Hostname,
+                    department: docs[i].Department,
+                    location: docs[i].Location,
+                    protocol: docs[i].TCP_IP,
+                    model: docs[i].Model,
+                    modelDesp: docs[i].Model_Desp,
+                    serialNumber: docs[i].Serial_Number,
+                    install_date: docs[i].Installation_Date,
+                    wg: docs[i].WG,
+                    ad: docs[i].AD,
+                    vnc: docs[i].VNC,
+                    lync: docs[i].LYNC,
+                    quiz: docs[i].Safety_Quiz,
+                    combolt: docs[i].Combolt,
+                    sccm: docs[i].SCCM,
+                    antiv: docs[i].Anti_Virus,
+                    vts: docs[i].VTS,
+                    shutdown: docs[i].ShutDown,
+                    pi: docs[i].PI,
+                    data_pro: docs[i].Data_Pro,
+                    data_link: docs[i].Data_Link
+                });
+            }
+        }
+        if (main_dat.length) {
+            json2csvCallback = function (err, csv) {
+                if (err) {
+                    console.log(err);
+                    req.flash('Export-Error', '', '/import');
+                } else {
+
+                    console.log(csv);
+                    fs.writeFile('export-data.csv', csv, function (err) {
+                        if (err) {
+                            console.log(err);
+                            req.flash('Export-Error', '', '/import');
+                        } else {
+
+                            console.log('Exported');
+                            main_data = [];
+                            req.flash('Export-Success', '', '/');
+                        }
+                    });
+                }
+            };
+            converter.json2csv(main_dat, json2csvCallback);
+        } else {
+            req.flash('Export-Error', '', '/import');
+        }
+    })
 })
 
 app.get('/', (req, res) => res.render('index'));
@@ -1001,4 +1207,4 @@ app.get('/data', (req, res) => res.render('data'));
 app.get('/import', (req, res) => res.render('import'));
 app.get('/query_data', (req, res) => res.render('query_data'));
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));

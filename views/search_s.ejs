@@ -55,7 +55,8 @@
                 <div class="form-group">
                     <label for="exampleprimary">Serial Number/Hostname</label>
                     <input type="text" class="form-control primary" name="exampleprimary" id="exampleprimary"
-                       value="<%= exampleprimary %>" readonly="readonly" placeholder="Enter SerialNumber/Hostname" autocomplete="off">
+                        value="<%= exampleprimary %>" readonly="readonly" placeholder="Enter SerialNumber/Hostname"
+                        autocomplete="off">
                 </div>
                 <button type="delete" class="btn btn-danger" id="delete">Delete</button>
                 <button type="edit" formaction="/edit" class="btn btn-primary" id="edit">Edit</button>
@@ -66,7 +67,7 @@
                     <div class="form-group">
                         <label for="examplestatus">Status</label>
                         <select class="form-control status" disabled="disabled" name="examplestatus" id="examplestatus"
-                          autocomplete="off">
+                            autocomplete="off">
                             <option value="" disabled selected><%= examplestatus %></option>
                             <option value="Online">Online</option>
                             <option value="Offline">Offline</option>
@@ -76,7 +77,8 @@
                     <div class="form-group">
                         <label for="exampleusername">UserName</label>
                         <input type="text" class="form-control username" readonly="readonly" name="exampleusername"
-                            id="exampleusername" value="<%= exampleusername %>" placeholder="Enter username" autocomplete="off">
+                            id="exampleusername" value="<%= exampleusername %>" placeholder="Enter username"
+                            autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleassettype">Asset Type</label>
@@ -94,19 +96,21 @@
                     <div class="form-group">
                         <label for="examplehostname">Host Name</label>
                         <input type="text" class="form-control hostname" readonly="readonly" name="examplehostname"
-                            id="examplehostname" value="<%= examplehostname %>" placeholder="Enter Host Name" autocomplete="off">
+                            id="examplehostname" value="<%= examplehostname %>" placeholder="Enter Host Name"
+                            autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="exampledepart">Department</label>
                         <input type="text" class="form-control depart" name="exampledepart" readonly="readonly"
-                            id="exampledepart" value="<%= exampledepart %>" placeholder="Enter Department" autocomplete="off">
+                            id="exampledepart" value="<%= exampledepart %>" placeholder="Enter Department"
+                            autocomplete="off">
                     </div>
-                </div>
-                <div class="sub-entry col-sm-6">
+
                     <div class="form-group">
                         <label for="examplelocation">Location</label>
                         <input type="text" class="form-control location" readonly="readonly" name="examplelocation"
-                            id="examplelocation" value="<%= examplelocation %>" placeholder="Enter Location" autocomplete="off">
+                            id="examplelocation" value="<%= examplelocation %>" placeholder="Enter Location"
+                            autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label for="exampleprotocols">TCP/IP</label>
@@ -131,147 +135,151 @@
                     <div class="form-group">
                         <label for="exampleserailNumber">Serial Number</label>
                         <input type="text" class="form-control snumber" readonly="readonly" name="exampleserailNumber"
-                            id="exampleserailNumber" value="<%= exampleserailNumber %>" placeholder="Enter Serial Number" autocomplete="off" required>
+                            id="exampleserailNumber" value="<%= exampleserailNumber %>"
+                            placeholder="Enter Serial Number" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleinstall">Installation Date</label>
                         <input type="date" class="form-control install" readonly="readonly" name="exampleinstall"
-                            id="exampleinstall" value="<%= exampleinstall %> " placeholder="Enter Installation Date" autocomplete="off">
+                            id="exampleinstall" value="<%= exampleinstall %> " placeholder="Enter Installation Date"
+                            autocomplete="off">
                     </div>
 
                 </div>
+                <div class="sub-entry col-sm-6">
                 <div class="form-group">
-                    <label for="exampleworkgroup">
-                        <label for="exampleworkgroup">WorkGroup</label>
-                        <select class="form-control workgroup" disabled="disabled" name="exampleworkgroup"
-                            id="exampleworkgroup" autocomplete="off">
-                            <option value="" disabled selected><%= exampleworkgroup %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
+
+                    <label for="exampleworkgroup">WorkGroup</label>
+                    <select class="form-control workgroup" disabled="disabled" name="exampleworkgroup"
+                        id="exampleworkgroup" autocomplete="off">
+                        <option value="" disabled selected><%= exampleworkgroup %></option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampledomain">
-                        <label for="exampledomain">AD</label>
-                        <select class="form-control domain" name="exampledomain" disabled="disabled" id="exampledomain"
-                            autocomplete="off">
-                            <option value="" disabled selected><%= exampledomain %> </option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
+
+                    <label for="exampledomain">AD</label>
+                    <select class="form-control domain" name="exampledomain" disabled="disabled" id="exampledomain"
+                        autocomplete="off">
+                        <option value="" disabled selected><%= exampledomain %> </option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="examplevnc">
-                        <label for="examplevnc">VNC</label>
-                        <select class="form-control vnc" name="examplevnc" disabled="disabled" id="examplevnc"
-                            autocomplete="off">
-                            <option value="" disabled selected><%= examplevnc %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="examplelync">
-                        <label for="examplelync">Lync</label>
-                        <select class="form-control lync" name="examplelync" disabled="disabled" id="examplelync"
-                            autocomplete="off">
-                            <option value="" disabled selected><%= examplelync %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="examplequiz">
-                        <label for="examplequiz">Safety-Quiz</label>
-                        <select class="form-control quiz" name="examplequiz" disabled="disabled" id="examplequiz"
-                            autocomplete="off">
-                            <option value="" disabled selected><%= examplequiz %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="examplecombolt">
-                        <label for="examplecombolt">Combolt</label>
-                        <select class="form-control combolt" name="examplecombolt" disabled="disabled"
-                            id="examplecombolt" autocomplete="off">
-                            <option value="" disabled selected><%= examplecombolt %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="examplesccm">
-                        <label for="examplesccm">SCCM</label>
-                        <select class="form-control sccm" name="examplesccm" disabled="disabled" id="examplesccm"
-                            autocomplete="off">
-                            <option value="" disabled selected><%= examplesccm %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleantivirus">
-                        <label for="exampleantivirus">Anti-Virus</label>
-                        <select class="form-control antivirus" name="exampleantivirus" disabled="disabled"
-                            id="exampleantivirus" autocomplete="off">
-                            <option value="" disabled selected><%= exampleantivirus %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="examplevts">
-                        <label for="examplevts">VTS</label>
-                        <select class="form-control vts" name="examplevts" disabled="disabled" id="examplevts"
-                            autocomplete="off">
-                            <option value="" disabled selected><%= examplevts %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleshutdown">
-                        <label for="exampleshutdown">ShutDown Policy</label>
-                        <select class="form-control shutdown" name="exampleshutdown" disabled="disabled"
-                            id="exampleshutdown" autocomplete="off">
-                            <option value="" disabled selected><%= exampleshutdown %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="examplepi">
-                        <label for="examplepi">PI</label>
-                        <select class="form-control pi" name="examplepi" disabled="disabled" id="examplepi"
-                            autocomplete="off">
-                            <option value="" disabled selected><%= examplepi %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampledatapro">
-                        <label for="exampledatapro">Data Pro</label>
-                        <select class="form-control datapro" name="examplepro" disabled="disabled" id="examplepro"
-                            autocomplete="off">
-                            <option value="" disabled selected><%= examplepro %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampledatalink">
-                        <label for="exampledatalink">Data-Link</label>
-                        <select class="form-control datalink" name="exampledatalink" disabled="disabled"
-                            id="exampledatalink" autocomplete="off">
-                            <option value="" disabled selected><%= exampledatalink %></option>
-                            <option value="YES">YES</option>
-                            <option value="NO">NO</option>
-                        </select>
-                </div>
+       
+            <div class="form-group">
+
+                <label for="examplevnc">VNC</label>
+                <select class="form-control vnc" name="examplevnc" disabled="disabled" id="examplevnc"
+                    autocomplete="off">
+                    <option value="" disabled selected><%= examplevnc %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="examplelync">Lync</label>
+                <select class="form-control lync" name="examplelync" disabled="disabled" id="examplelync"
+                    autocomplete="off">
+                    <option value="" disabled selected><%= examplelync %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="examplequiz">Safety-Quiz</label>
+                <select class="form-control quiz" name="examplequiz" disabled="disabled" id="examplequiz"
+                    autocomplete="off">
+                    <option value="" disabled selected><%= examplequiz %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="examplecombolt">Combolt</label>
+                <select class="form-control combolt" name="examplecombolt" disabled="disabled" id="examplecombolt"
+                    autocomplete="off">
+                    <option value="" disabled selected><%= examplecombolt %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="examplesccm">SCCM</label>
+                <select class="form-control sccm" name="examplesccm" disabled="disabled" id="examplesccm"
+                    autocomplete="off">
+                    <option value="" disabled selected><%= examplesccm %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="exampleantivirus">Anti-Virus</label>
+                <select class="form-control antivirus" name="exampleantivirus" disabled="disabled" id="exampleantivirus"
+                    autocomplete="off">
+                    <option value="" disabled selected><%= exampleantivirus %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="examplevts">VTS</label>
+                <select class="form-control vts" name="examplevts" disabled="disabled" id="examplevts"
+                    autocomplete="off">
+                    <option value="" disabled selected><%= examplevts %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="exampleshutdown">ShutDown Policy</label>
+                <select class="form-control shutdown" name="exampleshutdown" disabled="disabled" id="exampleshutdown"
+                    autocomplete="off">
+                    <option value="" disabled selected><%= exampleshutdown %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="examplepi">PI</label>
+                <select class="form-control pi" name="examplepi" disabled="disabled" id="examplepi" autocomplete="off">
+                    <option value="" disabled selected><%= examplepi %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="exampledatapro">Data Pro</label>
+                <select class="form-control datapro" name="examplepro" disabled="disabled" id="examplepro"
+                    autocomplete="off">
+                    <option value="" disabled selected><%= examplepro %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="exampledatalink">Data-Link</label>
+                <select class="form-control datalink" name="exampledatalink" disabled="disabled" id="exampledatalink"
+                    autocomplete="off">
+                    <option value="" disabled selected><%= exampledatalink %></option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
             </form>
         </div>
+    </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

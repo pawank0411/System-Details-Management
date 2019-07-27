@@ -30,8 +30,6 @@ document.getElementById('logout_b').onclick = function (){
         // Sign-out successful.
         var email = document.getElementById('username').value = '';
         var pass = document.getElementById('Password').value = '';
-    
-        window.alert('SignOut Successful');
       }).catch(function(error) {
         // An error happened.
         var errorCode = error.code;
