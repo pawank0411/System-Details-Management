@@ -16,7 +16,7 @@
     "fs": "0.0.1-security",
     "fs-temp": "^1.1.2",
     "json-2-csv": "^3.5.5",
-    "mongoose": "^5.6.2",
+    "mongoose": "^5.7.5",
     "path": "^0.12.7",
     "xlsx-to-json": "^0.3.0"
   },
